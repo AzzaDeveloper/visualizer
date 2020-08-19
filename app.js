@@ -30,8 +30,30 @@ var buffer = null;
 // Fix up prefixing
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var context = new AudioContext();
+function loadSound(url) {
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.responseType = 'arraybuffer';
+  
+    // Decode asynchronously
+    request.onload = function() {
+      context.decodeAudioData(request.response, function(buffer) {
+        dogBarkingBuffer = buffer;
+      }, onError);
+    }
+    request.send();
+}
+// Creating analyser
+var analyser = context.createAnalyser();
 // Requesting the sound
-
+const audioElement = document.querySelector('audio');
+audioElement.src = URL.createObjectURL(document.getElementsByTagName('input')[0].files[0]);
+// pass it into the audio context
+const track = context.createMediaElementSource(audioElement);
+track.connect(analyser);
+track.connect(context.destination);
+// Play
+audioElement.play();
 //------------------------------------------------//
 
 var t = 0;
