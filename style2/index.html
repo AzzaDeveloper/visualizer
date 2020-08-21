@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: sans-serif;
+                color: white;
+                font-size: 15px;
+            }
+            canvas {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            .fixed {
+                position: fixed;
+                width: 175px;
+                margin: 15px;
+            }
+            input {
+                position: relative;
+                padding: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="fixed">
+        <label id=multiLabel>Data multiplier: 10</label>
+        <input type=range id="multi" min="1" max="25" value="1">
+        <label id=lerpLabel>Lerp time: 0.01</label>
+        <input type=range id="lerp" min="0" max="1" step="0.01" value="0.01">
+        <label id=heightLabel>Height reduction: 0</label>
+        <input type=range id="height" min="1" max="25" value=1>
+        <label id=flatLabel>Height reduction (flat): 0</label>
+        <input type=range id="flat" min="1" max="512" value=128>
+        <label id=xLabel>Light X: 0</label>
+        <input type=range id="x" min="0" max="10" value="0" step=0.1>
+        <label id=yLabel>Light Y: 0</label>
+        <input type=range id="y" min="0" max="10" value="1" step=0.1>
+        <label id=zLabel>Light Z: 0</label>
+        <input type=range id="z" min="0" max="10" value="0" step=0.1>
+        </div>
+        <canvas id="canvas"></canvas>
+        <script src="https://cdn.babylonjs.com/babylon.js"></script>
+        <script src="./app.js"></script>
+    </body>
+</html>

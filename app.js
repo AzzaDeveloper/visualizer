@@ -71,7 +71,7 @@ function loadSound(url) {
     }
     request.send();
 }
-loadSound("https://raw.githubusercontent.com/AzzaDeveloper/visualizer/master/alone.mp3");
+loadSound("https://raw.githubusercontent.com/AzzaDeveloper/visualizer/master/tiferet.mp3");
 // Creating analyser
 var analyser = context.createAnalyser();
 // pass it into the audio context
