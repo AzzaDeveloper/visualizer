@@ -41,7 +41,7 @@ var ready = false;
 
 function playSound(buffer) {
     track = context.createBufferSource();
-    track.buffer = audioBuffer;
+    track.buffer = buffer;
     //
     track.connect(analyser);
     //
@@ -71,7 +71,7 @@ function loadSound(url) {
     }
     request.send();
 }
-loadSound("https://raw.githubusercontent.com/AzzaDeveloper/visualizer/master/tiferet.mp3");
+loadSound("https://raw.githubusercontent.com/AzzaDeveloper/visualizer/master/alone.mp3");
 // Creating analyser
 var analyser = context.createAnalyser();
 // pass it into the audio context
@@ -86,6 +86,7 @@ var t = 0;
 const mult = document.getElementById("multi");
 const lerpValue = document.getElementById("lerp");
 const heightt = document.getElementById("height");
+const flat = document.getElementById("flat");
 const x = document.getElementById("x");
 const y = document.getElementById("y");
 const z = document.getElementById("z");
@@ -93,18 +94,19 @@ var renderLoop = function() {
     scene.render();
     t -= 0.01;
     // Updating
-    document.getElementById("multiLabel").innerHTML = mult.value;
-    document.getElementById("lerpLabel").innerHTML = lerpValue.value;
-    document.getElementById("heightLabel").innerHTML = heightt.value;
-    document.getElementById("xLabel").innerHTML = x.value;
-    document.getElementById("yLabel").innerHTML = y.value;
-    document.getElementById("zLabel").innerHTML = z.value;
+    document.getElementById("multiLabel").innerHTML = "Data multiplier: " + mult.value;
+    document.getElementById("lerpLabel").innerHTML = "Lerp time: " +lerpValue.value;
+    document.getElementById("heightLabel").innerHTML = "Height reduction: " + heightt.value;
+    document.getElementById("flatLabel").innerHTML = "Height reduction (flat): " + flat.value;
+    document.getElementById("xLabel").innerHTML = "Light X: " + x.value;
+    document.getElementById("yLabel").innerHTML = "Light Y: " + y.value;
+    document.getElementById("zLabel").innerHTML = "Light Z: " + z.value;
     if (ready) {
         analyser.getByteTimeDomainData(dataArray);
         var prevHeight = 0;
         for (i = 0; i < blocks.length; i++) {
             var height = dataArray[i * Number(mult.value)];
-            var realScale = lerp(blocks[i].scaling.y, height / Number(heightt.value) - 128, Number(lerpValue.value));
+            var realScale = lerp(blocks[i].scaling.y, height / Number(heightt.value) - Number(flat.value), Number(lerpValue.value));
             blocks[i].scaling = new BABYLON.Vector3(1, realScale, 1);
             //prevHeight = height;
         }
