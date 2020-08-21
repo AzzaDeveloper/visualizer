@@ -5,9 +5,9 @@ const engine = new BABYLON.Engine(canvas, true);
 //-----------------------------------------------//
 
 const scene = new BABYLON.Scene(engine);
-scene.clearColor = new BABYLON.Color3(40 / 255, 50 / 255, 55 / 255)
+scene.clearColor = new BABYLON.Color3(15 / 255, 20 / 255, 22 / 255)
 const camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
-//
+//  
 camera.setTarget(BABYLON.Vector3.Zero());
 camera.attachControl(canvas, true);
 camera.keysUp.push(87);    // W
@@ -71,8 +71,7 @@ function loadSound(url) {
     }
     request.send();
 }
-loadSound("https://raw.githubusercontent.com/AzzaDeveloper/visualizer/master/camellia.mp3");
-console.log(audioBuffer);
+loadSound("https://raw.githubusercontent.com/AzzaDeveloper/visualizer/master/tiferet.mp3");
 // Creating analyser
 var analyser = context.createAnalyser();
 // pass it into the audio context
@@ -84,17 +83,32 @@ function lerp(a, b, t) {
 }
 
 var t = 0;
+const mult = document.getElementById("multi");
+const lerpValue = document.getElementById("lerp");
+const heightt = document.getElementById("height");
+const x = document.getElementById("x");
+const y = document.getElementById("y");
+const z = document.getElementById("z");
 var renderLoop = function() {
     scene.render();
     t -= 0.01;
-    //
+    // Updating
+    document.getElementById("multiLabel").innerHTML = mult.value;
+    document.getElementById("lerpLabel").innerHTML = lerpValue.value;
+    document.getElementById("heightLabel").innerHTML = heightt.value;
+    document.getElementById("xLabel").innerHTML = x.value;
+    document.getElementById("yLabel").innerHTML = y.value;
+    document.getElementById("zLabel").innerHTML = z.value;
     if (ready) {
         analyser.getByteTimeDomainData(dataArray);
+        var prevHeight = 0;
         for (i = 0; i < blocks.length; i++) {
-            var height = dataArray[i * 10];
-            var realScale = lerp(blocks[i].scaling.y, height - 128, 0.05);
+            var height = dataArray[i * Number(mult.value)];
+            var realScale = lerp(blocks[i].scaling.y, height / Number(heightt.value) - 128, Number(lerpValue.value));
             blocks[i].scaling = new BABYLON.Vector3(1, realScale, 1);
+            //prevHeight = height;
         }
+        light.direction = new BABYLON.Vector3(Number(x.value), Number(y.value), Number(z.value))
     }
 };
 engine.runRenderLoop(renderLoop);
